@@ -1,0 +1,58 @@
+
+a:hover {
+    text-decoration: none;
+}
+
+footer a {
+    color: rgba(0, 0, 0, 0.5);
+    text-decoration: none;
+}
+
+.open {
+    background-color: #FBE3BB;
+}
+
+.closed {
+    background-color: #EFEFEF;
+}
+
+.theme-bgcoloer {
+    background-color: #f5a615e3;
+}
+
+.table th, .table td {
+    border: 1px solid black;
+}
+
+.btn-superlg {
+    display: inline-block;
+    width: 250px;
+    height: 60px;
+    font-size: 30px;
+    margin: 10px;
+}
+
+.choice1{
+    border-left: solid 10px #2855DC;
+    padding: 5px;
+}
+
+.choice2{
+    border-left: solid 10px #A7B9F0;
+    padding: 5px;
+}
+
+.choice3{
+    border-left: solid 10px #F593A7;
+    padding: 5px;
+}
+
+.choice4{
+    border-left: solid 10px #DC143C;
+    padding: 5px;
+}
+
+.choice5{
+    border-left: solid 10px #a9a9a9;
+    padding: 5px;
+}
