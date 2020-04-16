@@ -11,7 +11,7 @@ class MatchCommentsController extends Controller
     // ログイン認証
     public function __construct()
     {
-        // $this->middleware('auth');
+        $this->middleware('auth');
     }
 
     // コメント一覧表示

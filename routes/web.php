@@ -16,6 +16,12 @@ Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
 Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
+// 以下ゲスト用画面
+// トップ画面
+Route::get('/', 'guest\TopPageController@top');
+// ログイン履歴画面
+Route::get('/guest/login_records', 'guest\TopPageController@login_records');
+
 // 以下管理者用画面
 // トップ画面
 Route::get('/admin', 'admin\UsersController@top');

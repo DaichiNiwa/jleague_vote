@@ -14,11 +14,6 @@ class NoticesController extends Controller
         $this->middleware('auth');
     }
     
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     // お知らせ一覧画面表示
     public function index()
     {
@@ -26,12 +21,6 @@ class NoticesController extends Controller
         return view('admin.notices', compact('notices'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     // お知らせ新規登録
     public function store(Request $request)
     {
@@ -46,12 +35,6 @@ class NoticesController extends Controller
         return redirect('/admin/notices');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Notice  $notice
-     * @return \Illuminate\Http\Response
-     */
     // お知らせ削除
     public function destroy(Notice $notice)
     {

@@ -14,7 +14,7 @@ class SurveysController extends Controller
     // ログイン認証
     public function __construct()
     {
-        // $this->middleware('auth');
+        $this->middleware('auth');
     }
 
     // アンケート一覧表示

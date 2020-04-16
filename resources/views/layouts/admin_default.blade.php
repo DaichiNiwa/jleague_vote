@@ -28,13 +28,19 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
+                            <a class="nav-link" href="{{ url('/admin/matches/create') }}">新規投票</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="{{ url('/admin/matches') }}">投票一覧</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url('/admin/surveys/create') }}">新規アンケート</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url('/admin/surveys') }}">アンケート一覧</a>
                         </li>
                         <li class="nav-item">
-                            <p class="nav-link mb-0">ログイン中:{{-- Auth::user()->name --}}</p>
+                            <p class="nav-link mb-0">ログイン中:{{ Auth::user()->name }}</p>
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('logout') }}" class="btn btn-primary" onclick="event.preventDefault();

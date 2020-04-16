@@ -4,32 +4,34 @@
 
 @section('content')
     <h1>お知らせ一覧</h1>
-    <table class="table table-striped">
-        <tr class="row">
-            <th class="col-9">本文</th>
-            <th class="col-2">掲載日時</th>
-            <th class="col-1">削除</th>
-        </tr>
-        @forelse($notices as $notice)
+    @if(count($notices) > 0)
+        <table class="table table-striped">
             <tr class="row">
-                <td class="col-9">{{ $notice->body }}</td>
-                <td class="col-2">{{ $notice->created_at }}</td>
-                <td class="col-1">
-                    <form method="POST" action="{{ action('admin\NoticesController@destroy', $notice) }}">
-                        @csrf
-                        @method('DELETE')
-                        <div class="form-group">
-                            <div class="">
-                                <button type="submit" class="btn btn-danger delete">削除</button>
-                            </div>
-                        </div>
-                    </form>
-                </td>
+                <th class="col-9">本文</th>
+                <th class="col-2">掲載日時</th>
+                <th class="col-1">削除</th>
             </tr>
-        @empty
-            <p>現在、お知らせはありません。</p>
-        @endforelse
-    </table>
+            @foreach($notices as $notice)
+                <tr class="row">
+                    <td class="col-9">{{ $notice->body }}</td>
+                    <td class="col-2">{{ $notice->created_at }}</td>
+                    <td class="col-1">
+                        <form method="POST" action="{{ action('admin\NoticesController@destroy', $notice) }}">
+                            @csrf
+                            @method('DELETE')
+                            <div class="form-group">
+                                <div class="">
+                                    <button type="submit" class="btn btn-danger delete">削除</button>
+                                </div>
+                            </div>
+                        </form>
+                    </td>
+                </tr>
+            @endforeach
+        </table>
+    @else
+        <p>現在、お知らせはありません。</p>
+    @endif
 
     <div class="card">
         <div class="card-header">新規登録</div>

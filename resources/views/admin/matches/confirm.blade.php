@@ -15,11 +15,11 @@
         </div>
         <div class="row">
             <p class="p-2 col-3 text-center">大会以下</p>
-            @if(isset($match['tournament_sub_name']))
+            @isset($match['tournament_sub_name'])
                 <p class="p-2 col-5 alert-success">{{ $match['tournament_sub_name'] }}</p>
             @else
                 <p class="p-2 col-5 alert-info">設定なし</p>
-            @endif
+            @endisset
         </div>
 
         <div class="row">
@@ -33,20 +33,20 @@
 
         <div class="row">
             <p class="p-2 col-3 text-center">チーム①</p>
-            @if(isset($match['team1']))
+            @isset($match['team1'])
                 <p class="p-2 col-5 alert-success">{{ $match['team1']->name }}</p>
             @else
                 <p class="p-2 alert-danger">「{{ $match['team1_keyword'] }}」でチームが見つかりませんでした。</p>
-            @endif
+            @endisset
         </div>
         
         <div class="row">
             <p class="p-2 col-3 text-center">チーム②</p>
-            @if(isset($match['team2']))
+            @isset($match['team2'])
                 <p class="p-2 col-5 alert-success">{{ $match['team2']->name }}</p>
             @else
                 <p class="p-2 alert-danger">「{{ $match['team2_keyword'] }}」でチームが見つかりませんでした。</p>
-            @endif
+            @endisset
         </div>
 
         <div class="row">
@@ -58,11 +58,11 @@
         
         <div class="row">
             <p class="p-2 col-3 text-center">予約投稿</p>
-            @if(isset($match['reserve_at']))
+            @isset($match['reserve_at'])
                 <p class="p-2 col-5 alert-success">{{ ($match['reserve_at'])->isoFormat('Y年M月D日(ddd) HH:mm') }}</p>
             @else
                 <p class="p-2 col-5 alert-info">設定なし</p>
-            @endif
+            @endisset
         </div>
 
         <div class="row">
@@ -80,7 +80,7 @@
             <form method="POST" action="{{ action('admin\MatchesController@store') }}">
                 @csrf
                 <div class="form-group">
-                    @if(isset($match['reserve_at']))
+                    @isset($match['reserve_at'])
                         <p>予約投稿の時間になると自動でTwitterで告知されます。</p>
                         <button type="submit" class="btn btn-primary">
                             この内容で予約投稿する
@@ -90,7 +90,7 @@
                         <button type="submit" class="btn btn-success">
                             この内容で公開する
                         </button>
-                    @endif
+                    @endisset
                 </div>
             </form>
         @else

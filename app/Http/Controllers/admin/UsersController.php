@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Hash;
 use App\LoginRecord;
@@ -30,11 +29,7 @@ class UsersController extends Controller
         $login_records = LoginRecord::latest()->paginate(config('const.NUMBERS.LONG_PAGINATE'));
         return view('admin.users.login_records', compact('login_records'));
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     //管理者一覧表示
     public function index()
     {
@@ -44,12 +39,6 @@ class UsersController extends Controller
         return view('admin.users.index', compact('users'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     // 管理者の新規登録
     public function store(UserRequest $request)
     {
@@ -63,12 +52,6 @@ class UsersController extends Controller
         return redirect('/admin/users');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     // パスワード変更画面表示
     public function edit(User $user)
     {
@@ -82,13 +65,6 @@ class UsersController extends Controller
         
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     // パスワード更新
     public function update(UserRequest $request, User $user)
     {
@@ -104,12 +80,6 @@ class UsersController extends Controller
         return redirect('/admin/users');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     // 管理者削除
     public function destroy(User $user)
     {

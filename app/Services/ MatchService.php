@@ -157,10 +157,10 @@ class MatchService
         } else {
             // 予約投稿でないときは、予約日時をnullにして即時公開とする
             $update_match->reserve_at = null;
-            // 予約投稿にしていた投票の場合、Twitterで投票開始を告知して、ステータスを受付中に設定。
+            // 予約投稿にしていた投票の場合、ステータスを受付中に変更して、Twitterで投票開始を告知。
             if($update_match->twitter_status === config('const.OPEN_STATUS.RESERVED')) {
-                \Notification::route(TwitterChannel::class, '')->notify(new TwitterVoteStarted($update_match));
                 $update_match->twitter_status = config('const.OPEN_STATUS.OPEN');
+                \Notification::route(TwitterChannel::class, '')->notify(new TwitterVoteStarted($update_match));
             }
             session()->flash('message', '投票を編集して公開しました。');
         }

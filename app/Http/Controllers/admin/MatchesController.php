@@ -5,7 +5,6 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Match;
 use App\Http\Requests\MatchRequest;
-use Illuminate\Http\Request;
 use App\Services\MatchService;
 
 class MatchesController extends Controller
@@ -13,7 +12,7 @@ class MatchesController extends Controller
     // ログイン認証
     public function __construct(MatchService $matchService)
     {
-        // $this->middleware('auth');
+        $this->middleware('auth');
         $this->matchService = $matchService;
     }
 
@@ -37,7 +36,6 @@ class MatchesController extends Controller
 
         // 入力された情報をまとめて変換
         $match = $this->matchService->change_match_for_confirm($match);
-
         // セッションに保存
         session(['match' => $match]);
 
@@ -49,7 +47,6 @@ class MatchesController extends Controller
     {
         //セッションから取得
         $match = session('match');
-        
         return view('admin.matches.revise', compact('match'));
     }
 

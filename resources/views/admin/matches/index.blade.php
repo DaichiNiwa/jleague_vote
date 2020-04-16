@@ -43,11 +43,11 @@
                     @endif
                 </td>
                 <td class="col-5">
-                    @if(isset($match->reserve_at)) 
+                    @isset($match->reserve_at)
                         予約日時: {{ $match->reserve_at->isoFormat('Y年M月D日(ddd) HH:mm') }}
                     @else
                         作成日時:{{ $match->created_at->isoFormat('Y年M月D日(ddd) HH:mm') }}
-                    @endif
+                    @endisset
                 </td>
                 <td class="col-2 p-1">
                     <a href="{{ action('admin\MatchCommentsController@index', $match) }}" class="btn btn-success">コメント一覧</a>
