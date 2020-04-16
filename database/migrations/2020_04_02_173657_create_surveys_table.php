@@ -15,13 +15,14 @@ class CreateSurveysTable extends Migration
     {
         Schema::create('surveys', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('question', 200);
+            $table->string('question', 100);
             $table->string('choice1', 50);
             $table->string('choice2', 50);
             $table->string('choice3', 50);
             $table->string('choice4', 50);
             $table->string('choice5', 50);
             $table->dateTime('close_at');
+            $table->unsignedTinyInteger('twitter_status')->default(1);
             $table->timestamps();
         });
     }

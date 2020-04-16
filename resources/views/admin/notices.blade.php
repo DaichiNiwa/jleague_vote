@@ -10,7 +10,7 @@
             <th class="col-2">掲載日時</th>
             <th class="col-1">削除</th>
         </tr>
-        @foreach($notices as $notice)
+        @forelse($notices as $notice)
             <tr class="row">
                 <td class="col-9">{{ $notice->body }}</td>
                 <td class="col-2">{{ $notice->created_at }}</td>
@@ -26,7 +26,9 @@
                     </form>
                 </td>
             </tr>
-        @endforeach
+        @empty
+            <p>現在、お知らせはありません。</p>
+        @endforelse
     </table>
 
     <div class="card">

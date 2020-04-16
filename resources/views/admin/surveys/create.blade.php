@@ -9,8 +9,8 @@
         <form method="POST" action="{{ action('admin\SurveysController@store') }}">
             @csrf
             <div class="form-group">
-                <label for="question" class="col-form-label">質問文(200文字)</label>
-                <textarea rows="3" class="form-control @error('question') is-invalid @enderror" name="question"required autocomplete="question" autofocus>{{ old('question') }}</textarea>
+                <label for="question" class="col-form-label">質問文(100文字)</label>
+                <textarea rows="3" class="form-control @error('question') is-invalid @enderror" name="question" required autocomplete="question" autofocus>{{ old('question') }}</textarea>
                 @error('question')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
@@ -77,17 +77,19 @@
 
             <div class="form-group">
                 <label for="close_at">投票締切日（デフォルトでは今日から8日後）</label>
-                    <input type="datetime" id="close_at" name="close_at" class="form-control @error('close_at') is-invalid @enderror" value="{{ old('close_at', $close_at) }}" required></input>
-
-                @error('close_at')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
+                <div class="input-group row pl-3">
+                    <input type="date" id="close_at" name="close_at" class="form-control col-3 @error('close_at') is-invalid @enderror" value="{{ old('close_at', $close_at) }}" required>
+                    <div class="input-group-append"><div class="input-group-text">0時0分</div></div>
+                    @error('close_at')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
             </div>
 
             
-
+            <p>新規登録が完了すると同時にTwitterで告知されます。</p>
             <div class="form-group">
                 <button type="submit" class="btn btn-primary">
                     新規登録

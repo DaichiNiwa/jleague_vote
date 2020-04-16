@@ -8,6 +8,10 @@ footer a {
     text-decoration: none;
 }
 
+.reserved {
+    background-color: #DCEBF8;
+}
+
 .open {
     background-color: #FBE3BB;
 }
@@ -55,4 +59,12 @@ footer a {
 .choice5{
     border-left: solid 10px #a9a9a9;
     padding: 5px;
+}
+
+#reserve_inputs{
+    display: none;
+}
+
+.display-block{
+    display: block;
 }

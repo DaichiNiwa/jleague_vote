@@ -27,4 +27,5 @@
             </tr>
         @endforeach
     </table>
+    {{ $login_records->links() }}
 @endsection

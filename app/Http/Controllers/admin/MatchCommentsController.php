@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
-use App\SurveyComment;
-use App\Survey;
+use App\MatchComment;
+use App\Match;
 
-class SurveyCommentsController extends Controller
+class MatchCommentsController extends Controller
 {
     // ログイン認証
     public function __construct()
@@ -15,19 +15,19 @@ class SurveyCommentsController extends Controller
     }
 
     // コメント一覧表示
-    public function index(Survey $survey)
+    public function index(Match $match)
     {
-        return view('admin.surveys.comments', compact('survey'));
+        return view('admin.matches.comments', compact('match'));
     }
 
     // 非表示のコメントのみ一覧表示
-    public function closed_comments(Survey $survey)
+    public function closed_comments(Match $match)
     {
-        return view('admin.surveys.closed_comments', compact('survey'));
+        return view('admin.matches.closed_comments', compact('match'));
     }
 
     // コメントの公開ステータスを変更（不適切なコメントを非表示に変更）
-    public function update(Survey $survey, SurveyComment $comment)
+    public function update(Match $match, MatchComment $comment)
     {
         // 現在のステータスが表示なら非表示に
         if($comment->is_open() === true){
@@ -37,7 +37,7 @@ class SurveyCommentsController extends Controller
             $comment->open_status = 1;
         }
         $comment->save();
-        session()->flash('message', 'アンケートコメントの表示を変更しました。');
+        session()->flash('message', '投票コメントの表示を変更しました。');
         return redirect()->back();
     }
 

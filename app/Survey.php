@@ -43,6 +43,12 @@ class Survey extends Model
         return 'closed';
     }
 
+    // 投票終了日に時刻（00時00分)を付ける。
+    // public function add_time($close_at){
+    //     $close_at .= ' 00:00:00';
+    //     return $close_at;
+    // }
+
     protected $fillable = [
         'question', 'choice1', 'choice2', 'choice3', 'choice4', 'choice5', 'close_at',
     ];

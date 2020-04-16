@@ -78,17 +78,17 @@
 
             <div class="form-group">
                 <label for="close_at">投票締切日（デフォルトでは今日から8日後）</label>
-                    <input type="datetime" id="close_at" name="close_at" class="form-control @error('close_at') is-invalid @enderror" value="{{ old('close_at', $survey->close_at) }}" required></input>
-
-                @error('close_at')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
+                <div class="input-group row pl-3">
+                    <input type="date" id="close_at" name="close_at" class="form-control col-3 @error('close_at') is-invalid @enderror" value="{{ old('close_at', $survey->close_at->toDateString()) }}" required>
+                    <div class="input-group-append"><div class="input-group-text">0時0分</div></div>
+                    @error('close_at')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
             </div>
-
             
-
             <div class="form-group">
                 <button type="submit" class="btn btn-primary">
                     アンケートを更新

@@ -34,7 +34,7 @@
                             <a class="nav-link" href="{{ url('/admin/surveys') }}">アンケート一覧</a>
                         </li>
                         <li class="nav-item">
-                            <p class="nav-link mb-0">ログイン中:{{ Auth::user()->name }}</p>
+                            <p class="nav-link mb-0">ログイン中:{{-- Auth::user()->name --}}</p>
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('logout') }}" class="btn btn-primary" onclick="event.preventDefault();
@@ -74,6 +74,7 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('js/selectbox.js') }}" defer></script>
 </body>
 
 </html>

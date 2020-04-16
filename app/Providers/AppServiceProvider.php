@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-// use Carbon\Carbon;
+use Carbon\Carbon;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,6 +25,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         //テスト用に時間を任意設定
-        // Carbon::setTestNow(Carbon::parse('2020-03-15 12:30:15'));
+        // Carbon::setTestNow(Carbon::parse('2021-04-08 00:00:00'));
     }
 }

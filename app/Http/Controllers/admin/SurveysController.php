@@ -6,13 +6,15 @@ use App\Http\Controllers\Controller;
 use App\Survey;
 use App\Http\Requests\SurveyRequest;
 use Carbon\Carbon;
+use App\Notifications\TwitterSurveyStarted;
+use NotificationChannels\Twitter\TwitterChannel;
 
 class SurveysController extends Controller
 {
     // ログイン認証
     public function __construct()
     {
-        $this->middleware('auth');
+        // $this->middleware('auth');
     }
 
     // アンケート一覧表示
@@ -25,22 +27,29 @@ class SurveysController extends Controller
     // アンケート新規登録表示
     public function create()
     {
-        $close_at = Carbon::tomorrow()->addWeek();
+        // 投票終了日時を発行(明日から１週間後の日付)
+        $close_at = Carbon::tomorrow()->addWeek()->toDateString();
         return view('admin.surveys.create', compact('close_at'));
     }
 
     // アンケート新規登録
     public function store(SurveyRequest $request)
     {
-        Survey::create([
+        // 投票終了時刻（$request->close_at）は日付だけで時間を指定していないので、
+        // ここで00時00分と指定。
+        $close_at = $request->close_at . ' 00:00:00';
+        $survey = Survey::create([
             'question' => $request['question'],
             'choice1' => $request['choice1'],
             'choice2' => $request['choice2'],
             'choice3' => $request['choice3'],
             'choice4' => $request['choice4'],
             'choice5' => $request['choice5'],
-            'close_at' => $request['close_at'],
+            'close_at' => $close_at,
         ]);
+
+        // ツイッターに投稿
+        \Notification::route(TwitterChannel::class, '')->notify(new TwitterSurveyStarted($survey));
         session()->flash('message', 'アンケートを新規登録しました。');
         return redirect('/admin/surveys');
     }
@@ -54,15 +63,19 @@ class SurveysController extends Controller
     // アンケート編集して更新
     public function update(SurveyRequest $request, Survey $survey)
     {
+        // 投票終了時刻（$request->close_at）は日付だけで時間を指定していないので、
+        // ここで00時00分と指定。
+        $close_at = $request->close_at . ' 00:00:00';
+
         $survey->question = $request->question;
         $survey->choice1 = $request->choice1;
         $survey->choice2 = $request->choice2;
         $survey->choice3 = $request->choice3;
         $survey->choice4 = $request->choice4;
         $survey->choice5 = $request->choice5;
-        $survey->close_at = $request->close_at;
-
+        $survey->close_at = $close_at;
         $survey->save();
+        
         session()->flash('message', 'アンケートの編集が完了しました。');
         return redirect('/admin/surveys');
     }

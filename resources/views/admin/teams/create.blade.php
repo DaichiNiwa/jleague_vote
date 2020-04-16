@@ -32,7 +32,7 @@
                                 <select name="ranking" id="ranking" class="form-control @error('ranking') is-invalid @enderror">
                                 <option value="">選択してください。</option>
                                     @for($i = 1; $i <= 20; $i++)
-                                    <option value="{{ $i }}">{{ $i }}位</option>
+                                        <option value="{{ $i }}">{{ $i }}位</option>
                                     @endfor
                                 </select>
                                 
