@@ -37,6 +37,7 @@ class CreateMatchCommentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('MatchComment');
+        Schema::dropIfExists('match_comments');
+        Schema::dropIfExists('matches');
     }
 }

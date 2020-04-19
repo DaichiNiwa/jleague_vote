@@ -45,7 +45,7 @@ class VoteStarted extends Command
         // 受付開始したものとして1件取得
         $match = Match::where([
             ['twitter_status', config('const.OPEN_STATUS.RESERVED')],
-            ['reserve_at', '<=', Carbon::now()]
+            ['open_at', '<=', Carbon::now()]
         ])->first();
 
         // 上の条件に合う投票が存在する場合、ステータスを受付開始に変更した上で、

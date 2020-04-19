@@ -19,8 +19,18 @@ Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 // 以下ゲスト用画面
 // トップ画面
 Route::get('/', 'guest\TopPageController@top');
-// ログイン履歴画面
-Route::get('/guest/login_records', 'guest\TopPageController@login_records');
+// お問い合わせ
+Route::get('/contact', 'guest\TopPageController@contact');
+Route::post('/send', 'guest\TopPageController@send');
+// このサイトについて
+Route::get('/about', 'guest\TopPageController@about');
+// サイト紹介ページ
+Route::get('/welcome', 'guest\TopPageController@welcome');
+
+// 以下投票操作
+// 投票操作
+Route::resource('/matches', 'guest\MatchesController');
+
 
 // 以下管理者用画面
 // トップ画面

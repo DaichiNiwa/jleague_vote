@@ -94,7 +94,7 @@
             @else
                 <div class="form-check pb-3">
                     <input type="hidden" name="reserve" value="0">
-                    <input class="form-check-input" type="checkbox" id="reserve" name="reserve" value="1" @if(isset($match->reserve_at) || old('reserve')==='1') checked @endif>
+                    <input class="form-check-input" type="checkbox" id="reserve" name="reserve" value="1" @if($match->open_status() === config('const.OPEN_STATUS.RESERVED') || old('reserve')==='1') checked @endif>
                     <label class="form-check-label" id="reserve" for="reserve">予約投稿を設定（チェックすると指定した時間に自動で公開され、投票開始します。）</label>
                 </div>
 

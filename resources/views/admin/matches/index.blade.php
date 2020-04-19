@@ -8,7 +8,7 @@
     <table class="table table-bordered">
         @foreach($matches as $match)
             <tr class="row m-0 {{ $match->bg_color() }}">
-                <td class="col-1 theme-bgcoloer">{{ $match->id }}</td>
+                <td class="col-1 bg-theme">{{ $match->id }}</td>
                 <td class="col-7">{{ $match->tournament_name() . $match->tournament_sub_name() }}</td>
                 <td class="col-4">{{ $match->start_at->isoFormat('Y年M月D日(ddd) HH:mm') }}開始</td>
             </tr>
@@ -43,11 +43,7 @@
                     @endif
                 </td>
                 <td class="col-5">
-                    @isset($match->reserve_at)
-                        予約日時: {{ $match->reserve_at->isoFormat('Y年M月D日(ddd) HH:mm') }}
-                    @else
-                        作成日時:{{ $match->created_at->isoFormat('Y年M月D日(ddd) HH:mm') }}
-                    @endisset
+                    公開日時: {{ $match->open_at->isoFormat('Y年M月D日(ddd) HH:mm') }}
                 </td>
                 <td class="col-2 p-1">
                     <a href="{{ action('admin\MatchCommentsController@index', $match) }}" class="btn btn-success">コメント一覧</a>

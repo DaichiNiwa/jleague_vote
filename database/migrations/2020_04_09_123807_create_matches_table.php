@@ -23,7 +23,7 @@ class CreateMatchesTable extends Migration
             $table->unsignedTinyInteger('tournament_sub')->nullable();
             $table->unsignedTinyInteger('homeaway')->default(0);
             $table->dateTime('start_at');
-            $table->dateTime('reserve_at')->nullable();
+            $table->dateTime('open_at');
             $table->unsignedTinyInteger('focus_status')->default(0);
             $table->unsignedTinyInteger('twitter_status')->default(1);
             $table->timestamps();

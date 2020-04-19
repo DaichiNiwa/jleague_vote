@@ -17,7 +17,7 @@
 
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-light theme-bgcoloer">
+        <nav class="navbar navbar-expand-sm navbar-light bg-theme p-4">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">Jリーグ勝者予想</a>
                 <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="ナビゲーションの切替">
@@ -49,11 +49,12 @@
         </div>
     </main>
 
-    <footer class="theme-bgcoloer">
-        <div class="container text-center">
-            <div class="">
-                <a href="#" class="mr-3 ml-3">このサイトについて</a>
-                <a href="#" class="mr-3 ml-3">お問い合わせ</a>
+    <footer class="bg-theme p-3">
+        <div class="container">
+            <div class="row">
+                <a href="{{ url('/welcome') }}" class="col-12 col-md-3">このサイトの紹介</a>
+                <a href="{{ url('/about') }}" class="col-12 col-md-3">このサイトについて</a>
+                <a href="{{ url('/contact') }}" class="col-12 col-md-3">お問い合わせ</a>
             </div>
             <p><small>Copyright &copy; jleague_vote All Rights Reserved.</small></p>
         </div>

@@ -17,7 +17,7 @@ class Match extends Model
         'tournament_sub',
         'homeaway',
         'start_at',
-        'reserve_at',
+        'open_at',
         'focus_status',
         'twitter_status',
     ];
@@ -25,7 +25,7 @@ class Match extends Model
     // 日時をCarbonインスタンスとして取得する
     protected $dates = [
         'start_at',
-        'reserve_at',
+        'open_at',
     ];
 
     // 各数字を取得する際、データ型をINTにして取得
@@ -73,8 +73,8 @@ class Match extends Model
     public function reserve_date()
     {
         $reserve_date = '';
-        if(isset($this->reserve_at)){
-            $reserve_date = $this->reserve_at->toDateString();
+        if($this->open_at > Carbon::now()){
+            $reserve_date = $this->open_at->toDateString();
         }
         return $reserve_date;
     }
@@ -83,8 +83,8 @@ class Match extends Model
     public function reserve_time()
     {
         $reserve_date = '';
-        if(isset($this->reserve_at)){
-            $reserve_date = $this->reserve_at->format('H:i');
+        if($this->open_at > Carbon::now()){
+            $reserve_date = $this->open_at->format('H:i');
         }
         return $reserve_date;
     }
@@ -92,41 +92,81 @@ class Match extends Model
     // 投票ステータスを0から2の数字で取得
     public function open_status(){
         $now = Carbon::now();
-        // 予約投稿をした場合
-        if(isset($this->reserve_at)) {
-            // 公開前
-            if ($this->reserve_at > $now){
-                return config('const.OPEN_STATUS.RESERVED');
-            }
-            // 投票受付中
-            if ($now > $this->reserve_at && $this->start_at > $now){
-                return config('const.OPEN_STATUS.OPEN');
-            }
+        // 公開前の場合
+        if ($this->open_at > $now){
+            return config('const.OPEN_STATUS.RESERVED');
         }
-
-        // 予約していない場合
-        // 投票受付中
-        if ($this->start_at > $now){
+        // 投票受付中の場合
+        if ($now > $this->open_at && $this->start_at > $now){
             return config('const.OPEN_STATUS.OPEN');
         }
 
-        // 上のどれにも当てはまらないときは投票終了
+        // 上記に当てはまらないときは投票終了
         return config('const.OPEN_STATUS.CLOSED');
+    }
+
+    // 投票が受付中ならtrueを返す
+    public function is_open(){
+        $is_open = false;
+        if ($this->open_status() === config('const.OPEN_STATUS.OPEN')){
+            $is_open = true;
+        }
+        return $is_open;
     }
 
     // 投票ステータスによって色を指定。
     public function bg_color(){
         // デフォルトは投票終了
-        $bg_color = 'closed';
+        $bg_color = 'gray-light';
         // 公開前
         if ($this->open_status() === config('const.OPEN_STATUS.RESERVED')){
-            $bg_color = 'reserved';
+            $bg_color = 'blue-light';
         }
         // 投票受付中
         if ($this->open_status() === config('const.OPEN_STATUS.OPEN')){
-            $bg_color = 'open';
+            $bg_color = 'orange-light';
         }
         return $bg_color;
+    }
+
+    // 投票が投票受付中か終了かによって投票カードの色を変える。
+    public function card_body_color(){
+        if ($this->open_status() === config('const.OPEN_STATUS.OPEN')){
+            return '';
+        }
+        return 'gray-light';
+    }
+
+    // 試合にホームアウェイ設定をしていればtrueを返す
+    public function is_homeaway_on(){
+        $is_open = false;
+        if ($this->homeaway === config('const.STATUS.ON')){
+            $is_open = true;
+        }
+        return $is_open;
+    }
+
+    // 総投票数を取得
+    public function votes_amount(){
+        return $this->team1_votes + $this->team2_votes;
+    }
+
+    // チーム１の得票率
+    public function team1_percentage(){
+        $percentage = 0;
+        if ($this->team1_votes > 0){
+            $percentage = round($this->team1_votes / $this->votes_amount() * 100);
+        }
+        return $percentage;
+    }
+
+    // チーム2の得票率
+    public function team2_percentage(){
+        $percentage = 0;
+        if ($this->team2_votes > 0){
+            $percentage = round($this->team2_votes / $this->votes_amount() * 100);
+        }
+        return $percentage;
     }
     
     // 投票についたコメントを、ページネーションの長いリストで取得する。（管理者用ページで使用）
@@ -146,5 +186,14 @@ class Match extends Model
                     ])
                     ->orderBy('comment_number')
                     ->paginate(config('const.NUMBERS.LONG_PAGINATE'));
+    }
+
+    // 投票のコメント数を取得
+    public function comments_amount(){
+        return $this->hasMany('App\MatchComment')
+                    ->Where([
+                        ['match_id', $this->id],
+                        ['open_status', config('const.STATUS.ON')]
+                    ])->count();
     }
 }

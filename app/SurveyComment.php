@@ -19,10 +19,10 @@ class SurveyComment extends Model
     public function bg_color(){
         // open_statusが1の時、通常の表示の色
         if($this->open_status === 1){
-            return 'open';
+            return 'orange-light';
         }
         // それ以外は非表示の色
-        return 'closed';
+        return 'gray-light';
     }
 
     protected $fillable = [

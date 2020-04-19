@@ -58,8 +58,8 @@
         
         <div class="row">
             <p class="p-2 col-3 text-center">予約投稿</p>
-            @isset($match['reserve_at'])
-                <p class="p-2 col-5 alert-success">{{ ($match['reserve_at'])->isoFormat('Y年M月D日(ddd) HH:mm') }}</p>
+            @isset($match['open_at'])
+                <p class="p-2 col-5 alert-success">{{ ($match['open_at'])->isoFormat('Y年M月D日(ddd) HH:mm') }}</p>
             @else
                 <p class="p-2 col-5 alert-info">設定なし</p>
             @endisset
@@ -81,7 +81,7 @@
                 @csrf
                 @method('PATCH')
                 <div class="form-group">
-                    @isset($match['reserve_at'])
+                    @isset($match['open_at'])
                         <p>予約投稿の時間になると自動でTwitterで告知されます。</p>
                         <button type="submit" class="btn btn-primary">
                             この内容で予約投稿する

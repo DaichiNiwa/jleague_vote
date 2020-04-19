@@ -20,6 +20,9 @@ return [
         'ON' => 1,
     ],
 
+    // 管理者のメールアドレス
+    'ADMIN_MAIL' => '@yahoo.co.jp',
+
     // 投票とアンケートの投票ステータス（公開前、受付中、受付終了）
     'OPEN_STATUS' => [
         'RESERVED' => 0,

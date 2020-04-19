@@ -8,24 +8,46 @@ footer a {
     text-decoration: none;
 }
 
-.reserved {
+.blue-light {
     background-color: #DCEBF8;
 }
 
-.open {
+.orange-light {
     background-color: #FBE3BB;
 }
 
-.closed {
+.gray-light {
     background-color: #EFEFEF;
 }
 
-.theme-bgcoloer {
+.bg-theme {
     background-color: #f5a615e3;
+}
+
+.bg-theme-light {
+    background-color: #F6B545;
+}
+
+.bg-theme-light:hover {
+    background-color: #E4940A;
+}
+
+.border-theme {
+    border-color: #f5a615e3 !important;
 }
 
 .table th, .table td {
     border: 1px solid black;
+}
+
+.btn .badge {
+    top: -2.2px;
+    margin-left: 0.5em;
+}
+
+.btn-bagde {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
 }
 
 .btn-superlg {
@@ -36,29 +58,90 @@ footer a {
     margin: 10px;
 }
 
+.btn-large {
+    width: 8em;
+    height: 2.5em;
+    font-size: 1.2em;
+}
+
+.card-body{
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+.small-card {
+    margin: 0em 1em 2em 1em;
+    padding-left: 0em;
+    padding-right: 0em;
+}
+
+.badge-home {
+    color: white;
+    background-color: #2855DC;
+    margin-left: 1em;
+    top: -1.5px;
+    position: relative;
+}
+
+.progress-line{
+    height: 0.5rem;
+    border-radius: 0rem;
+}
+
+.team1{
+    border-left: solid 10px #2855DC;
+    padding: 0.4em 1em 0.4em 0.4em;
+    margin-bottom: 1em;
+}
+
+.team2{
+    border-left: solid 10px #DC143C;
+    padding: 0.4em 2em 0.4em 0.4em;
+    margin-bottom: 1em;
+}
+
 .choice1{
     border-left: solid 10px #2855DC;
-    padding: 5px;
+    padding: 0.4em;
 }
 
 .choice2{
     border-left: solid 10px #A7B9F0;
-    padding: 5px;
+    padding: 0.4em;
 }
 
 .choice3{
     border-left: solid 10px #F593A7;
-    padding: 5px;
+    padding: 0.4em;
 }
 
 .choice4{
     border-left: solid 10px #DC143C;
-    padding: 5px;
+    padding: 0.4em;
 }
 
 .choice5{
     border-left: solid 10px #a9a9a9;
-    padding: 5px;
+    padding: 0.4em;
+}
+
+.bg-choice2{
+    background-color: #A7B9F0;
+    height: 3em;
+}
+
+.bg-choice3{
+    background-color: #F593A7;
+    height: 3em;
+}
+
+.bg-choice5{
+    background-color: #a9a9a9;
+    height: 3em;
+}
+
+.headning-mt{
+    margin-top: 3em;
 }
 
 #reserve_inputs{

@@ -38,5 +38,6 @@ class CreateSurveyCommentsTable extends Migration
     public function down()
     {
         Schema::dropIfExists('survey_comments');
+        Schema::dropIfExists('surveys');
     }
 }

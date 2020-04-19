@@ -116,5 +116,6 @@ return [
         'reserve'=>'予約投稿',
         'reserve_date'=>'予約投稿日',
         'reserve_time'=>'予約投稿時間',
+        'message'=>'本文',
     ],
 ];

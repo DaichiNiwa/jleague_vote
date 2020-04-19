@@ -33,12 +33,10 @@ class MatchesController extends Controller
     public function confirm(MatchRequest $request)
     {
         $match = $request->all();
-
         // 入力された情報をまとめて変換
         $match = $this->matchService->change_match_for_confirm($match);
         // セッションに保存
         session(['match' => $match]);
-
         return view('admin.matches.confirm', compact('match'));
     }
 
@@ -77,12 +75,10 @@ class MatchesController extends Controller
     public function edit_confirm(MatchRequest $request)
     {
         $match = $request->all();
-        
         // 入力された情報をまとめて変換
         $match = $this->matchService->change_match_for_confirm($match);
         // セッションに保存
         session(['match' => $match]);
-        
         return view('admin.matches.edit.confirm', compact('match'));
     }
 
@@ -103,7 +99,6 @@ class MatchesController extends Controller
         $match = session()->pull('match');
         // 試合を更新
         $this->matchService->update_match($match);
-
         return redirect('/admin/matches');
     }
 

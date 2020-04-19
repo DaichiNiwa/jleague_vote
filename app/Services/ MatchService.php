@@ -64,11 +64,11 @@ class MatchService
     // 予約投稿が設定されていれば、その日時を作成。いなければnullを返す。
     public function generate_reserve_datetime($reserve, $reserve_date, $reserve_time)
     {
-        $reserve_at = null;
+        $open_at = null;
         if ($this->is_status_on($reserve) === true) {
-            $reserve_at = new Carbon($reserve_date . $reserve_time);
+            $open_at = new Carbon($reserve_date . $reserve_time);
         }
-        return $reserve_at;
+        return $open_at;
     }
 
     // 入力された情報をそれぞれ適切に変換
@@ -91,8 +91,8 @@ class MatchService
         
         // 試合開始日時を作成
         $match['start_at'] = $this->generate_datetime($match['match_date'], $match['match_time']);
-        // 予約投稿日時日時を作成
-        $match['reserve_at'] = $this->generate_reserve_datetime($match['reserve'], $match['reserve_date'], $match['reserve_time']);
+        // 予約投稿日時日時を作成(予約投稿しない場合はnull)
+        $match['open_at'] = $this->generate_reserve_datetime($match['reserve'], $match['reserve_date'], $match['reserve_time']);
 
         // ホームアウェイ設定と注目の投票設定がそれぞれ1(ON)ならtrue、0(OFF)ならfalseを代入
         $match['is_homeaway_on'] = $this->is_status_on($match['homeaway']);
@@ -104,24 +104,25 @@ class MatchService
     // 試合を新規登録
     public function insert_match($match)
     {
+        // 予約投稿しない場合、ここでopen_atを現在時刻にすることで、即時公開する。
+        if($match['open_at'] === null){
+            $match['open_at'] = Carbon::now();
+        }
+
         $new_match = Match::create([
             'team1_id' => $match['team1']->id,
             'team2_id' => $match['team2']->id,
             'tournament' => $match['tournament'],
+            'tournament_sub' => $match['tournament_sub'],
             'homeaway' => $match['homeaway'],
             'start_at' => $match['start_at'],
+            'open_at' => $match['open_at'],
             'focus_status' => $match['focus'],
         ]);
 
-        // 大会のサブカテゴリが入力されていれば、挿入
-        if(isset($match['tournament_sub'])){
-            $new_match->tournament_sub = $match['tournament_sub'];
-        }
-
-        // 予約投稿が設定されていれば、挿入
-        if(isset($match['reserve_at'])){
-            $new_match->reserve_at = $match['reserve_at'];
-            // Twitterは時間がきたら自動で投票開始を告知するようにステータスを設定。
+        // 予約投稿が設定されている場合
+        if($this->is_status_on($match['reserve']) === true){
+            // Twitterで時間がきたら自動で投票開始を告知するようにステータスを設定。
             $new_match->twitter_status = config('const.OPEN_STATUS.RESERVED');
             session()->flash('message', '投票の予約投稿を設定しました。');
         } else {
@@ -141,24 +142,20 @@ class MatchService
         $update_match->team1_id = $match['team1']->id;
         $update_match->team2_id = $match['team2']->id;
         $update_match->tournament = $match['tournament'];
+        $update_match->tournament_sub = $match['tournament_sub'];
         $update_match->homeaway = $match['homeaway'];
         $update_match->start_at = $match['start_at'];
         $update_match->focus_status = $match['focus'];
 
-        // 大会のサブカテゴリが入力されていれば、挿入
-        if(isset($match['tournament_sub'])){
-            $update_match->tournament_sub = $match['tournament_sub'];
-        }
-
         // 予約投稿の場合、予約日時を挿入
-        if(isset($match['reserve_at'])){
-            $update_match->reserve_at = $match['reserve_at'];
+        if(isset($match['open_at'])){
+            $update_match->open_at = $match['open_at'];
             session()->flash('message', '投票を編集して予約投稿を設定しました。');
         } else {
-            // 予約投稿でないときは、予約日時をnullにして即時公開とする
-            $update_match->reserve_at = null;
-            // 予約投稿にしていた投票の場合、ステータスを受付中に変更して、Twitterで投票開始を告知。
-            if($update_match->twitter_status === config('const.OPEN_STATUS.RESERVED')) {
+            // 予約投稿だった投票を即時公開する場合、open_atを現在時刻とする。
+            // さらにTwitterステータスを受付中に変更して、投票開始を告知。
+            if($update_match->open_status() === config('const.OPEN_STATUS.RESERVED')) {
+                $update_match->open_at = Carbon::now();
                 $update_match->twitter_status = config('const.OPEN_STATUS.OPEN');
                 \Notification::route(TwitterChannel::class, '')->notify(new TwitterVoteStarted($update_match));
             }
