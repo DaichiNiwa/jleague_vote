@@ -14,12 +14,9 @@ class CreateUsersTable extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            // idはデフォルトのbigIncrementsやsmallIncrementsでもよい。
-            $table->unsignedTinyInteger('id')->autoIncrement();
+            $table->tinyIncrements('id');
             $table->string('name')->unique();
             $table->string('password');
-            // remembertokenいらないかも
-            // $table->rememberToken();
             $table->timestamps();
         });
     }

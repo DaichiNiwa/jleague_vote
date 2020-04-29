@@ -1,3 +1,6 @@
+.navbar-brand {
+    font-size: 1.4rem;
+}
 
 a:hover {
     text-decoration: none;
@@ -8,20 +11,46 @@ footer a {
     text-decoration: none;
 }
 
-.open {
+.blue-light {
+    background-color: #DCEBF8;
+}
+
+.orange-light {
     background-color: #FBE3BB;
 }
 
-.closed {
+.gray-light {
     background-color: #EFEFEF;
 }
 
-.theme-bgcoloer {
+.bg-theme {
     background-color: #f5a615e3;
+}
+
+.bg-theme-light {
+    background-color: #F6B545;
+}
+
+.bg-theme-light:hover {
+    background-color: #E4940A;
+}
+
+.border-theme {
+    border-color: #f5a615e3 !important;
 }
 
 .table th, .table td {
     border: 1px solid black;
+}
+
+.btn .badge {
+    top: -2.2px;
+    margin-left: 0.5em;
+}
+
+.btn-bagde {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
 }
 
 .btn-superlg {
@@ -32,27 +61,102 @@ footer a {
     margin: 10px;
 }
 
+.btn-large {
+    width: 8em;
+    height: 2.5em;
+    font-size: 1.2em;
+}
+
+.card-body{
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+.small-card {
+    margin: 0em 1em 2em 1em;
+    padding-left: 0em;
+    padding-right: 0em;
+}
+
+.badge-home {
+    color: white;
+    background-color: #2855DC;
+    margin-left: 1em;
+    top: -1.5px;
+    position: relative;
+}
+
+.progress-line{
+    height: 0.5rem;
+    border-radius: 0rem;
+}
+
 .choice1{
     border-left: solid 10px #2855DC;
-    padding: 5px;
+    padding: 0.4em;
 }
 
 .choice2{
     border-left: solid 10px #A7B9F0;
-    padding: 5px;
+    padding: 0.4em;
 }
 
 .choice3{
     border-left: solid 10px #F593A7;
-    padding: 5px;
+    padding: 0.4em;
 }
 
 .choice4{
-    border-left: solid 10px #DC143C;
-    padding: 5px;
+    border-left: solid 10px #EA1F47;
+    padding: 0.4em;
 }
 
 .choice5{
     border-left: solid 10px #a9a9a9;
-    padding: 5px;
+    padding: 0.4em;
+}
+
+.bg-choice1{
+    background-color: #2049C5;
+}
+
+.bg-choice2{
+    background-color: #A7B9F0;
+}
+
+.bg-choice3{
+    background-color: #F593A7;
+}
+
+.bg-choice4{
+    background-color: #C31235;
+}
+
+.bg-choice5{
+    background-color: #CECECE;
+}
+
+.height-3em{
+    height: 3em;
+}
+
+.headning-mt{
+    margin-top: 2em;
+}
+
+.tweet-btn {
+    position: relative;
+    height: 24px;
+    box-sizing: border-box;
+    padding: 1px 8px 1px 6px;
+    background-color: #1b95e0;
+    color: #fff;
+    border-radius: 3px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.tweet-btn:hover {
+    background-color: #0c7abf;
+    color: #fff;
 }

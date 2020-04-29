@@ -175,6 +175,14 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        // 自作のServiceProvider
+        App\Providers\MatchServiceProvider::class,
+        App\Providers\GuestServiceProvider::class,
+        App\Providers\VoteServiceProvider::class,
+        App\Providers\SearchServiceProvider::class,
+        App\Providers\SurveyServiceProvider::class,
+
+
     ],
 
     /*

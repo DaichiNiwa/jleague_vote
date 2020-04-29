@@ -16,15 +16,16 @@
             <tr>
                 <td>{{ $login_record->id }}</td>
                 <td>
-                    @if(isset($login_record->user))
+                    @isset($login_record->user)
                         {{ $login_record->user->name }}
                     @else
                         ID:{{ $login_record->user_id }}（削除済）
-                    @endif
+                    @endisset
                 </td>
                 <td>{{ $login_record->ip }}</td>
                 <td>{{ $login_record->created_at }}</td>
             </tr>
         @endforeach
     </table>
+    {{ $login_records->links() }}
 @endsection

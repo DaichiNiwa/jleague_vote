@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Carbon\Carbon;
 
 class SurveyRequest extends FormRequest
 {
@@ -23,14 +24,15 @@ class SurveyRequest extends FormRequest
      */
     public function rules()
     {
+        $one_month = Carbon::today()->addDays(31); ;
         return [
-            'question' => ['required', 'max:200'],
+            'question' => ['required', 'max:100'],
             'choice1' => ['required', 'max:50'],
             'choice2' => ['required', 'max:50'],
             'choice3' => ['required', 'max:50'],
             'choice4' => ['required', 'max:50'],
             'choice5' => ['required', 'max:50'],
-            'close_at' => ['required', 'date_format:"Y-m-d H:i:s"', 'after:tomorrow'],
+            'close_at' => ['required', 'date_format:"Y-m-d"', 'after:tomorrow', 'before:' . $one_month],
         ];
     }
 }

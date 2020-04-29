@@ -5,7 +5,6 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\SurveyComment;
 use App\Survey;
-use Illuminate\Http\Request;
 
 class SurveyCommentsController extends Controller
 {
