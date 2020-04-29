@@ -1,9 +1,9 @@
 @extends('layouts.admin_default')
 
-@section('title', '投票一覧')
+@section('title', '試合一覧')
 
 @section('content')
-    <h1>投票一覧</h1>
+    <h1>試合一覧</h1>
     {{ $matches->links() }}
     <table class="table table-bordered">
         @foreach($matches as $match)

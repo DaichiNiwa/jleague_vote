@@ -126,7 +126,7 @@ class MatchService
             $new_match->twitter_status = config('const.OPEN_STATUS.RESERVED');
             session()->flash('message', '投票の予約投稿を設定しました。');
         } else {
-            // 予約投稿しない場合、即時にTwitterに投稿する。
+            // 予約投稿しない場合、即時にTwitterに告知する。
             \Notification::route(TwitterChannel::class, '')->notify(new TwitterVoteStarted($new_match));
             session()->flash('message', '投票を公開しました。');
         }

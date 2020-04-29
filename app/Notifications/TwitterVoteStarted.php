@@ -41,7 +41,7 @@ class TwitterVoteStarted extends Notification
     // Twitter投稿の本文を生成
     public function generate_text(Match $match)
     {
-        $text = "投票開始！\n【" . 
+        $text = "投票開始！\n\n【" . 
                 $match->tournament_name();
 
         // 大会サブカテゴリがあれば追加

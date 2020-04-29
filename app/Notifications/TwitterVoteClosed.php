@@ -41,7 +41,7 @@ class TwitterVoteClosed extends Notification
     // Twitter投稿の本文を生成
     public function generate_text(Match $match)
     {
-        $text = "結果発表！\n【" . 
+        $text = "投票終了！\n\n【" . 
                 $match->tournament_name();
 
         // 大会サブカテゴリがあれば追加

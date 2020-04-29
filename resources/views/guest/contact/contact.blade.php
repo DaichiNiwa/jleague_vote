@@ -4,11 +4,6 @@
 
 @section('content')
 <h2>お問い合わせ</h2>
-    @if(session('message'))
-    <div class="alert alert-success">
-        {{ session('message') }}
-    </div>
-    @endif
     <p>※お問い合わせをいただいても実際には返信をいたしません。</p>
     <div class="card">
         <div class="card-body">
@@ -46,6 +41,7 @@
                     </span>
                     @enderror
                 </div>
+                <p>不適切なコメントの報告をしていただく場合、該当の試合またはアンケートと、コメント番号を明記してください。</p>
                 <button type="submit" class="btn btn-primary">送信する</button>
             </form>
         </div>

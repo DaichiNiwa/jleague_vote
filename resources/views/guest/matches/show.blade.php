@@ -4,7 +4,9 @@
 
 @section('content')
 
-    @if($match->is_open() === true)
+@include('guest.layouts.vote_complete')
+
+    @if($is_open === true)
         <h3>投票</h3>
         <div class="card small-card">
             <div class="card-header orange-light">
@@ -14,43 +16,59 @@
 
             <div class="card-body">
                 <p>どちらのチームが勝つと思いますか？</p>
-                <form method="POST" action="{{ action('admin\TeamsController@store') }}">
+                <form method="POST" action="{{ action('guest\MatchVotesController@store', $match) }}">
+                    @csrf
                     <div class="d-md-flex justify-content-between">
-                        @csrf
                         <div>
-                            <div class="team1">
+                            <div class="choice1 mb-3">
                                 <div class="custom-control custom-radio">
-                                    <input id="customRadio1" name="customRadio" type="radio" class="custom-control-input align-bottom">
-                                    <label class="custom-control-label" for="customRadio1">
+                                    <input id="team1" name="voted_to" type="radio" class="custom-control-input" value="0" required>
+                                    <label class="custom-control-label" for="team1">
                                         {{ $match->team1->name }}
                                         @if($match->is_homeaway_on() === true)<span class="badge badge-home">Home</span>@endif
                                     </label>
                                 </div>
                             </div>
 
-                            <div class="team2">
+                            <div class="choice4 mb-3">
                                 <div class="custom-control custom-radio">
-                                    <input id="customRadio2" name="customRadio" type="radio" class="custom-control-input">
-                                    <label class="custom-control-label" for="customRadio2">{{ $match->team2->name }}</label>
+                                    <input id="team2" name="voted_to" type="radio" class="custom-control-input" value="1">
+                                    <label class="custom-control-label" for="team2">{{ $match->team2->name }}</label>
                                 </div>
                             </div>
                         </div>
-                        <a  class="btn bg-theme-light btn-large" href="{{ action('guest\MatchesController@show', $match) }}">投票する</a>
+                        @if($has_voted === true)
+                            <div>
+                                <p class="btn btn-secondary btn-large">投票しました</p>
+                                <p class="small m-0">1日1回投票できます。</p>
+                            </div>
+                        @else
+                            <button type="submit" class="btn bg-theme-light btn-large">投票する</button>
+                        @endif
                     </div>
                 </form>
             </div>
         </div>
     @endif
+    @if($match->is_open() === true && $match->are_votes_full() === true)
+        <p>投票数が上限に達したため、投票できません。</p>
+    @endif
         
-    <h3>@if($match->is_open() === true) 途中経過 @else 最終結果 @endif</h3>
+    <div class="d-flex justify-content-between">
+        <h3>@if($is_open === true) 途中経過 @else 最終結果 @endif</h3>
+        @include('guest.layouts.twitter_link.vote', ['match' => $match])
+    </div>
     <div class="border border-theme rounded-lg bg-white p-3 mb-4">
+        @if($is_open === false)
+            <p>{{ $match->tournament_name() . '　' . $match->tournament_sub_name() . '　' . $match->start_at->isoFormat('Y年M月D日(ddd) H:mm') }}開始</p>
+        @endif
         @if($match->votes_amount() > 0)
             <div class="d-flex">
-                <div class="bg-choice2" style="width: {{ $match->team1_percentage() }}%"></div>
-                <div class="bg-choice3" style="width: {{ $match->team2_percentage() }}%"></div>
+                <div class="bg-choice2 height-3em" style="width: {{ $match->team1_percentage() }}%"></div>
+                <div class="bg-choice3 height-3em" style="width: {{ $match->team2_percentage() }}%"></div>
             </div>
         @else
-            <div class="bg-choice5 text-light text-center pt-2">まだ一度も投票されていません。</div>
+            <div class="bg-choice5 height-3em text-light text-center pt-2">まだ一度も投票されていません。</div>
         @endif
         <div class="d-flex justify-content-between">
             <div>
@@ -71,44 +89,26 @@
         </div>
     </div>
         
-        
     <h3>コメント</h3>
     <div class="border border-primary rounded-lg bg-white p-3">
-        <form action="{{ action('admin\TeamsController@store') }}" method="post">
-            @csrf
-            <div class="form-group">
-                <label for="name"></label>
-                <input type="name" name="name" class="form-control @error('name') is-invalid @enderror" id="name" value="{{ old('name') }}" required>
-
-                @error('name')
-                <span class="invalid-feedback" role="alert">
-                    <strong>{{ $message }}</strong>
-                </span>
-                @enderror
+        @if($match->comments_amount() > 0)
+            <div class="row">
+                @include('guest.layouts.match_comment_card', ['comments' => $comments])
             </div>
-
-            <div class="form-group">
-                <label for="subject">お問い合わせの内容</label>
-                <select name="subject" class="form-control" required>
-                    <option value="不適切なコメントの報告" @if(old('subject') === "不適切なコメントの報告" ) selected @endif>不適切なコメントの報告</option>
-                    <option value="試合について" @if(old('subject') === "試合について" ) selected @endif>試合について</option>
-                    <option value="アンケートについて" @if(old('subject') === "アンケートについて" ) selected @endif>アンケートについて</option>
-                    <option value="サイトの運営について" @if(old('subject') === "サイトの運営について" ) selected @endif>サイトの運営について</option>
-                    <option value="その他" @if(old('subject') === "その他" ) selected @endif>その他</option>
-                </select>
-            </div>
-            
-            <div class="form-group">
-                <label for="message">本文（600文字以内）</label>
-                <textarea name="message" id="message" class="form-control @error('message') is-invalid @enderror" rows="5" required>{{ old('message') }}</textarea>
-
-                @error('message')
-                <span class="invalid-feedback" role="alert">
-                    <strong>{{ $message }}</strong>
-                </span>
-                @enderror
-            </div>
-            <button type="submit" class="btn btn-primary">送信する</button>
-        </form>
+        @else
+            <p>まだコメントはありません。</p>
+        @endif
+        <div class="d-md-flex">
+            <p class="m-0"><a href="{{ action('guest\MatchCommentsController@index', $match) }}" class="btn btn-primary mb-3 mb-md-0 mr-md-3">
+                すべてのコメント<span class="badge badge-light">{{ $match->comments_amount() }}</span></a>
+            </p>
+            @if($match->are_comments_full() === true)
+                <p>コメント数が上限に達したため、新しいコメントはできません。</p>
+            @else
+                <p class="m-0"><a href="{{ action('guest\MatchCommentsController@create', $match) }}" class="btn btn-warning">コメントを書く</a></p>
+            @endif
+        </div>
     </div>
+
+
 @endsection

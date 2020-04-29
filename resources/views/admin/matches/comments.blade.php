@@ -1,9 +1,9 @@
 @extends('layouts.admin_default')
 
-@section('title', '投票コメント一覧')
+@section('title', '試合コメント一覧')
 
 @section('content')
-    <h1>投票コメント一覧</h1>
+    <h1>試合コメント一覧</h1>
     <p>{{ $match->tournament_name() . $match->tournament_sub_name() }}</p>
     <p>{{ $match->start_at->isoFormat('Y年M月D日(ddd) HH:mm') }}開始</p>
     <p>①{{ $match->team1->name }}　②{{ $match->team2->name }}</p>

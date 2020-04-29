@@ -1,9 +1,9 @@
 @extends('layouts.admin_default')
 
-@section('title', '投票編集記入確認')
+@section('title', '試合編集記入確認')
 
 @section('content')
-<h1>投票編集記入確認</h1>
+<h1>試合編集記入確認</h1>
 <div class="card">
     <div class="card-body">
 
@@ -74,7 +74,7 @@
             @endif
         </div>
 
-        <p>記入ミスがないか十分に確認してください。一度公開した投票を予約（公開前）に戻すことはできません。</p>
+        <p>記入ミスがないか十分に確認してください。一度公開した試合を予約（公開前）に戻すことはできません。</p>
 
         @if($match['is_valid_teams'] === true)
             <form method="POST" action="{{ action('admin\MatchesController@update', $match['id']) }}">

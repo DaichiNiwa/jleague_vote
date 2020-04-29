@@ -6,7 +6,9 @@
 
     @if(count($today_matches) > 0)
         <h3>本日の試合</h3>
-        @include('guest.layouts.match_card', ['matches' => $today_matches])
+        <div class="row">
+            @include('guest.layouts.match_card', ['matches' => $today_matches])
+        </div>
     @endif
 
     @if(count($notices) > 0)
@@ -22,10 +24,14 @@
     <h3 class="headning-mt">注目の投票</h3>
     <div class="border border-theme rounded-lg bg-white pt-4">
         @include('guest.layouts.survey_card', ['surveys' => $surveys])
-        @include('guest.layouts.match_card', ['matches' => $focus_matches])
+        <div class="row">
+            @include('guest.layouts.match_card', ['matches' => $focus_matches])
+        </div>
     </div>
 
     <h3 class="headning-mt">今週の試合</h3>
-    @include('guest.layouts.match_card', ['matches' => $weekly_matches])
+    <div class="row">
+        @include('guest.layouts.match_card', ['matches' => $weekly_matches])
+    </div>
 
 @endsection

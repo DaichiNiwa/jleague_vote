@@ -35,7 +35,7 @@
                 <label for="choice2" class="choice2">選択肢②</label>
                 <input id="choice2" type="text" class="form-control @error('choice2') is-invalid @enderror" name="choice2" value="{{ old('choice2', 'どちらかと言えばそう思う。') }}" required>
 
-                @error('choice1')
+                @error('choice2')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>
@@ -76,7 +76,7 @@
             </div>
 
             <div class="form-group">
-                <label for="close_at">投票締切日（デフォルトでは今日から8日後）</label>
+                <label for="close_at">投票締切日（デフォルトでは今日から8日後。最短で2日後、最長で３０日後）</label>
                 <div class="input-group row pl-3">
                     <input type="date" id="close_at" name="close_at" class="form-control col-3 @error('close_at') is-invalid @enderror" value="{{ old('close_at', $close_at) }}" required>
                     <div class="input-group-append"><div class="input-group-text">0時0分</div></div>
@@ -89,7 +89,7 @@
             </div>
 
             
-            <p>新規登録が完了すると同時にTwitterで告知されます。</p>
+            <p>新規登録ボタンをクリックすると即時公開され、Twitterで告知されます。</p>
             <div class="form-group">
                 <button type="submit" class="btn btn-primary">
                     新規登録

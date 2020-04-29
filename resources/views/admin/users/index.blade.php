@@ -7,7 +7,7 @@
     <table class="table table-striped col-8">
         <tr>
             <th>番号</th>
-            <th>ログインユーザー</th>
+            <th>ログインID</th>
             <th>パスワード変更</th>
             <th>削除</th>
         </tr>

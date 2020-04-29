@@ -26,9 +26,3 @@ $('.parent').change(function () {
     }
 
 });
-
-// 予約投稿欄の表示を切り替える
-// $('#reserve').click(function() {
-//     //クリックイベントで要素をトグルさせる
-//     $("#reserve_inputs").slideToggle(this.checked);
-// });

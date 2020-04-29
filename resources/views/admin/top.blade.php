@@ -4,8 +4,8 @@
 
 @section('content')
     <div>
-        <a href="{{ url('/admin/matches/create') }}" class="btn btn-superlg btn-warning">新規投票</a>
-        <a href="{{ url('/admin/matches') }}" class="btn btn-superlg btn-warning">投票一覧</a>
+        <a href="{{ url('/admin/matches/create') }}" class="btn btn-superlg btn-warning">新規試合</a>
+        <a href="{{ url('/admin/matches') }}" class="btn btn-superlg btn-warning">試合一覧</a>
     </div>
     <div>
         <a href="{{ url('/admin/surveys/create') }}" class="btn btn-superlg btn-success">新規アンケート</a>

@@ -1,9 +1,9 @@
 @extends('layouts.admin_default')
 
-@section('title', '投票編集')
+@section('title', '試合編集')
 
 @section('content')
-<h1>投票編集</h1>
+<h1>試合編集</h1>
 <div class="card">
     <div class="card-body">
         <form method="POST" action="{{ action('admin\MatchesController@edit_confirm') }}">
@@ -87,7 +87,7 @@
             <h2 class="border-bottom border-primary">設定</h2>
 
             @if($match->open_status() === config('const.OPEN_STATUS.OPEN'))
-                <p>一度公開した投票を予約（公開前）に戻すことはできません。</p>
+                <p>一度公開した試合を予約（公開前）に戻すことはできません。</p>
                 <input type="hidden" name="reserve" value="0">
                 <input type="hidden" name="reserve_date" value="">
                 <input type="hidden" name="reserve_time" value="">
@@ -95,7 +95,7 @@
                 <div class="form-check pb-3">
                     <input type="hidden" name="reserve" value="0">
                     <input class="form-check-input" type="checkbox" id="reserve" name="reserve" value="1" @if($match->open_status() === config('const.OPEN_STATUS.RESERVED') || old('reserve')==='1') checked @endif>
-                    <label class="form-check-label" id="reserve" for="reserve">予約投稿を設定（チェックすると指定した時間に自動で公開され、投票開始します。）</label>
+                    <label class="form-check-label" id="reserve" for="reserve">予約投稿を設定（チェックすると指定した時間に自動で公開され、試合開始します。）</label>
                 </div>
 
                 <div class="form-group">
@@ -130,7 +130,7 @@
 
             <div class="form-check pb-3">
                 <input type="hidden" name="focus" value="0">
-                <input class="form-check-input" type="checkbox" id="focus" name="focus" value="1" @if($match->focus === 1 || old('focus') === '1') checked @endif>
+                <input class="form-check-input" type="checkbox" id="focus" name="focus" value="1" @if($match->focus_status === 1 || old('focus') === '1') checked @endif>
                 <label class="form-check-label" for="focus">注目の投票に設定（チェックするとトップページの「注目の投票」で表示されます。）</label>
             </div>
 

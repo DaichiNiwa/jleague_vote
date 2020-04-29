@@ -117,5 +117,10 @@ return [
         'reserve_date'=>'予約投稿日',
         'reserve_time'=>'予約投稿時間',
         'message'=>'本文',
+        'nickname'=>'ニックネーム',
+        'voted_to'=>'応援するチーム',
+        'comment'=>'コメント',
+        'keyword1'=>'チーム①',
+        'keyword2'=>'チーム②',
     ],
 ];

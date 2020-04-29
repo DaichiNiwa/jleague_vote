@@ -1,9 +1,9 @@
 @extends('layouts.admin_default')
 
-@section('title', '新規投票登録')
+@section('title', '新規試合登録')
 
 @section('content')
-<h1>新規投票登録</h1>
+<h1>新規試合登録</h1>
 <div class="card">
     <div class="card-body">
         <form method="POST" action="{{ action('admin\MatchesController@confirm') }}">
@@ -89,7 +89,7 @@
             <div class="form-check pb-3">
                 <input type="hidden" name="reserve" value="0">
                 <input class="form-check-input" type="checkbox" id="reserve" name="reserve" value="1" @if(old('reserve')==='1' ) checked @endif>
-                <label class="form-check-label" id="reserve" for="reserve">予約投稿を設定（チェックすると指定した時間に自動で公開され、投票開始します。）</label>
+                <label class="form-check-label" id="reserve" for="reserve">予約投稿を設定（チェックすると指定した時間に自動で公開され、試合開始します。）</label>
             </div>
 
             <div class="form-group">

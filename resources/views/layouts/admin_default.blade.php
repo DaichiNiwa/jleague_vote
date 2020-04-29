@@ -15,23 +15,24 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
 </head>
 
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-light bg-theme p-4">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/admin') }}">Jリーグ勝者予想</a>
+                <a class="navbar-brand" href="{{ url('/admin') }}">Jリーグ <i class="fas fa-futbol"></i> 勝者予想</a>
                 <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="ナビゲーションの切替">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url('/admin/matches/create') }}">新規投票</a>
+                            <a class="nav-link" href="{{ url('/admin/matches/create') }}">新規試合</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url('/admin/matches') }}">投票一覧</a>
+                            <a class="nav-link" href="{{ url('/admin/matches') }}">試合一覧</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url('/admin/surveys/create') }}">新規アンケート</a>
@@ -72,7 +73,7 @@
         <div class="container">
             <div class="row">
                 <a href="{{ url('/welcome') }}" class="col-12 col-md-3">このサイトの紹介</a>
-                <a href="{{ url('/about') }}" class="col-12 col-md-3">このサイトについて</a>
+                <a href="{{ url('/about') }}" class="col-12 col-md-3">サイトのご利用について</a>
                 <a href="{{ url('/contact') }}" class="col-12 col-md-3">お問い合わせ</a>
             </div>
             <p><small>Copyright &copy; jleague_vote All Rights Reserved.</small></p>

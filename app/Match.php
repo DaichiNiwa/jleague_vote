@@ -168,6 +168,16 @@ class Match extends Model
         }
         return $percentage;
     }
+
+    // 投票数が上限(20000)に達しているかどうか
+    public function are_votes_full(){
+        $are_votes_full = false;
+
+        if($this->votes_amount() >= config('const.NUMBERS.MAX_VOTES')){
+            $are_votes_full = true;
+        }
+        return $are_votes_full;
+    }
     
     // 投票についたコメントを、ページネーションの長いリストで取得する。（管理者用ページで使用）
     public function comments_longlist(){
@@ -182,13 +192,36 @@ class Match extends Model
         return $this->hasMany('App\MatchComment')
                     ->Where([
                         ['match_id', $this->id],
-                        ['open_status', '0'],
+                        ['open_status', config('const.STATUS.OFF')],
                     ])
                     ->orderBy('comment_number')
                     ->paginate(config('const.NUMBERS.LONG_PAGINATE'));
     }
 
-    // 投票のコメント数を取得
+    // 投票のコメントの最初の6つを取得
+    public function first_six_comments(){
+        return $this->hasMany('App\MatchComment')
+                    ->Where([
+                        ['match_id', $this->id],
+                        ['open_status', config('const.STATUS.ON')]
+                    ])
+                    ->orderBy('comment_number')
+                    ->limit(6)
+                    ->get();
+    }
+
+    // 投票のコメントを10つずつ取得
+    public function get_comments(){
+        return $this->hasMany('App\MatchComment')
+                    ->Where([
+                        ['match_id', $this->id],
+                        ['open_status', config('const.STATUS.ON')]
+                    ])
+                    ->orderBy('comment_number')
+                    ->paginate(config('const.NUMBERS.COMMENT_PAGINATE'));
+    }
+
+    // 投票の公開コメント数を取得
     public function comments_amount(){
         return $this->hasMany('App\MatchComment')
                     ->Where([
@@ -196,4 +229,31 @@ class Match extends Model
                         ['open_status', config('const.STATUS.ON')]
                     ])->count();
     }
+
+    // 投票の最新のコメント番号を取得
+    public function last_comment_number(){
+        $last_comment = MatchComment::where([
+                        ['match_id', $this->id]
+                        ])
+                        ->orderBy('comment_number', 'desc')
+                        ->first();
+
+        if($last_comment === null){
+            $last_comment_number = 0;
+        } else {
+            $last_comment_number = $last_comment->comment_number;
+        }
+        return $last_comment_number;
+    }
+
+    // 投票のコメント数が上限(1000)に達しているかどうか
+    public function are_comments_full(){
+        $are_comments_full = false;
+
+        if($this->last_comment_number() >= config('const.NUMBERS.MAX_COMMENTS')){
+            $are_comments_full = true;
+        }
+        return $are_comments_full;
+    }
+
 }

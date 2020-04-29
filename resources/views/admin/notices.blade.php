@@ -4,6 +4,7 @@
 
 @section('content')
     <h1>お知らせ一覧</h1>
+    <p>お知らせを登録すると、ゲスト用のトップページに掲載されます。</p>
     @if(count($notices) > 0)
         <table class="table table-striped">
             <tr class="row">
