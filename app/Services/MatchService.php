@@ -124,11 +124,11 @@ class MatchService
         if($this->is_status_on($match['reserve']) === true){
             // Twitterで時間がきたら自動で投票開始を告知するようにステータスを設定。
             $new_match->twitter_status = config('const.OPEN_STATUS.RESERVED');
-            session()->flash('message', '投票の予約投稿を設定しました。');
+            session()->flash('message', '試合の予約投稿を設定しました。');
         } else {
             // 予約投稿しない場合、即時にTwitterに告知する。
             \Notification::route(TwitterChannel::class, '')->notify(new TwitterVoteStarted($new_match));
-            session()->flash('message', '投票を公開しました。');
+            session()->flash('message', '試合を公開しました。');
         }
 
         $new_match->save();
@@ -150,16 +150,16 @@ class MatchService
         // 予約投稿の場合、予約日時を挿入
         if(isset($match['open_at'])){
             $update_match->open_at = $match['open_at'];
-            session()->flash('message', '投票を編集して予約投稿を設定しました。');
+            session()->flash('message', '試合を編集して予約投稿を設定しました。');
         } else {
-            // 予約投稿だった投票を即時公開する場合、open_atを現在時刻とする。
+            // 予約投稿だった試合を即時公開する場合、open_atを現在時刻とする。
             // さらにTwitterステータスを受付中に変更して、投票開始を告知。
             if($update_match->open_status() === config('const.OPEN_STATUS.RESERVED')) {
                 $update_match->open_at = Carbon::now();
                 $update_match->twitter_status = config('const.OPEN_STATUS.OPEN');
                 \Notification::route(TwitterChannel::class, '')->notify(new TwitterVoteStarted($update_match));
             }
-            session()->flash('message', '投票を編集して公開しました。');
+            session()->flash('message', '試合を編集して公開しました。');
         }
 
         $update_match->save();

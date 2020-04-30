@@ -37,7 +37,7 @@ class MatchCommentsController extends Controller
             $comment->open_status = 1;
         }
         $comment->save();
-        session()->flash('message', '投票コメントの表示を変更しました。');
+        session()->flash('message', '試合コメントの表示を変更しました。');
         return redirect()->back();
     }
 

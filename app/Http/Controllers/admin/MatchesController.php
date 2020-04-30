@@ -16,20 +16,20 @@ class MatchesController extends Controller
         $this->matchService = $matchService;
     }
 
-    // 投票一覧表示
+    // 試合一覧表示
     public function index()
     {
         $matches = Match::OrderBy('start_at', 'desc')->paginate(config('const.NUMBERS.LONG_PAGINATE'));
         return view('admin.matches.index', compact('matches'));
     }
 
-    // 投票新規登録表示
+    // 試合新規登録表示
     public function create()
     {
         return view('admin.matches.create');
     }
 
-    // 投票記入確認表示
+    // 試合記入確認表示
     public function confirm(MatchRequest $request)
     {
         $match = $request->all();
@@ -40,7 +40,7 @@ class MatchesController extends Controller
         return view('admin.matches.confirm', compact('match'));
     }
 
-    // 投票記入修正表示
+    // 試合記入修正表示
     public function revise()
     {
         //セッションから取得
@@ -48,7 +48,7 @@ class MatchesController extends Controller
         return view('admin.matches.revise', compact('match'));
     }
 
-    // 投票新規登録
+    // 試合新規登録
     public function store()
     {
         //セッションから取得してから破棄
@@ -58,10 +58,10 @@ class MatchesController extends Controller
         return redirect('/admin/matches/create');
     }
 
-    // 投票編集表示
+    // 試合編集表示
     public function edit(Match $match)
     {
-        // 終了した投票は編集できないのでリダイレクト
+        // 終了した試合は編集できないのでリダイレクト
         if($match->open_status() === config('const.OPEN_STATUS.CLOSED')){
             return redirect('/admin/matches');
         }
@@ -71,7 +71,7 @@ class MatchesController extends Controller
         return view('admin.matches.edit.edit', compact('match', 'reserve_date', 'reserve_time'));
     }
 
-    // 投票編集記入確認表示
+    // 試合編集記入確認表示
     public function edit_confirm(MatchRequest $request)
     {
         $match = $request->all();
@@ -82,17 +82,17 @@ class MatchesController extends Controller
         return view('admin.matches.edit.confirm', compact('match'));
     }
 
-    // 投票編集記入修正表示
+    // 試合編集記入修正表示
     public function edit_revise()
     {
         //セッションから取得
         $match = session('match');
-        // 投票が今、受付中かどうか取得
+        // 試合が今、受付中かどうか取得
         $open_status = Match::find($match['id'])->open_status();
         return view('admin.matches.edit.revise', compact('match', 'open_status'));
     }
 
-    // 投票編集して更新
+    // 試合編集して更新
     public function update()
     {
         //セッションから取得してから破棄
@@ -102,11 +102,11 @@ class MatchesController extends Controller
         return redirect('/admin/matches');
     }
 
-    // 投票削除
+    // 試合削除
     public function destroy(Match $match)
     {
         $match->delete();
-        session()->flash('message', '投票を削除しました。');
+        session()->flash('message', '試合を削除しました。');
         return redirect('/admin/matches');
     }
 }

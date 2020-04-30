@@ -10,7 +10,7 @@ class MatchComment extends Model
         'match_id', 'comment_number', 'voted_to', 'name', 'comment', 'open_status',
     ];
 
-    // コメントついた試合を取得
+    // コメントがついた試合を取得
     public function match() {
         return $this->belongsTo('App\Match');
     }
