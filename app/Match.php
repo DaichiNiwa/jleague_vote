@@ -89,7 +89,7 @@ class Match extends Model
         return $reserve_date;
     }
 
-    // 投票ステータスを0から2の数字で取得
+    // 試合の公開ステータスを0から2の数字で取得
     public function open_status(){
         $now = Carbon::now();
         // 公開前の場合
@@ -129,7 +129,7 @@ class Match extends Model
         return $bg_color;
     }
 
-    // 投票が投票受付中か終了かによって投票カードの色を変える。
+    // 試合が投票受付中か終了かによって試合カードの色を変える。
     public function card_body_color(){
         if ($this->open_status() === config('const.OPEN_STATUS.OPEN')){
             return '';
@@ -179,7 +179,7 @@ class Match extends Model
         return $are_votes_full;
     }
     
-    // 投票についたコメントを、ページネーションの長いリストで取得する。（管理者用ページで使用）
+    // 試合についたコメントを、ページネーションの長いリストで取得する。（管理者用ページで使用）
     public function comments_longlist(){
         return $this->hasMany('App\MatchComment')
                     ->Where('match_id', $this->id)
@@ -198,7 +198,7 @@ class Match extends Model
                     ->paginate(config('const.NUMBERS.LONG_PAGINATE'));
     }
 
-    // 投票のコメントの最初の6つを取得
+    // 試合のコメントの最初の6つを取得
     public function first_six_comments(){
         return $this->hasMany('App\MatchComment')
                     ->Where([
@@ -210,7 +210,7 @@ class Match extends Model
                     ->get();
     }
 
-    // 投票のコメントを10つずつ取得
+    // 試合のコメントを10つずつ取得
     public function get_comments(){
         return $this->hasMany('App\MatchComment')
                     ->Where([
@@ -221,7 +221,7 @@ class Match extends Model
                     ->paginate(config('const.NUMBERS.COMMENT_PAGINATE'));
     }
 
-    // 投票の公開コメント数を取得
+    // 試合の公開コメント数を取得
     public function comments_amount(){
         return $this->hasMany('App\MatchComment')
                     ->Where([
@@ -230,7 +230,7 @@ class Match extends Model
                     ])->count();
     }
 
-    // 投票の最新のコメント番号を取得
+    // 試合の最新のコメント番号を取得
     public function last_comment_number(){
         $last_comment = MatchComment::where([
                         ['match_id', $this->id]
@@ -246,7 +246,7 @@ class Match extends Model
         return $last_comment_number;
     }
 
-    // 投票のコメント数が上限(1000)に達しているかどうか
+    // 試合のコメント数が上限(1000)に達しているかどうか
     public function are_comments_full(){
         $are_comments_full = false;
 

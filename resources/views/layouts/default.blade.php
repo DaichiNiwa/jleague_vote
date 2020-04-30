@@ -33,9 +33,6 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url('/login') }}">ログイン画面へ</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link" href="{{ url('/matches') }}">試合一覧</a>
                         </li>
                         <li class="nav-item">
