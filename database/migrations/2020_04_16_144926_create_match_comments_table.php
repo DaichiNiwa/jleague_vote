@@ -16,10 +16,8 @@ class CreateMatchCommentsTable extends Migration
         Schema::create('match_comments', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('match_id');
-            // comment_numberデフォルト値なしでもいい
             $table->unsignedSmallInteger('comment_number')->default(1);
-            // voted_toデフォルト値なしでもいい
-            $table->unsignedTinyInteger('voted_to')->default(0);
+            $table->unsignedTinyInteger('voted_to');
             $table->string('name', 20)->nullable();
             $table->string('comment', 300);
             $table->boolean('open_status')->default(1);

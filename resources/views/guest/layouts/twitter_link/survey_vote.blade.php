@@ -1,7 +1,7 @@
 <a href="https://twitter.com/intent/tweet?
 text=@if($survey->is_open() === true)アンケート受付中！@elseアンケート結果！@endif%0a%0a
 【{{ $survey->question }}】%0a%0a
-&url=https%3A%2F%2F{{ config('const.URL') . '%2Fsurveys%2F' . $survey->id }}
+&url=https%3A%2F%2F{{ config('app.url') . '%2Fsurveys%2F' . $survey->id }}
 &hashtags=Jリーグ投票"
 class="tweet-btn"
 >

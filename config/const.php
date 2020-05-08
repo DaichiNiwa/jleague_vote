@@ -1,7 +1,5 @@
 <?php
 return [
-    // URL
-    'URL' => 'jleague_vote.com',
     // 管理者のメールアドレス
     'ADMIN_MAIL' => '@yahoo.co.jp',
 
