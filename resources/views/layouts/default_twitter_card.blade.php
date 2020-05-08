@@ -3,4 +3,4 @@
 <meta property="og:url" content="{{ url('/') }}"/>
 <meta property="og:title" content="Jリーグ勝者予想"/>
 <meta property="og:description" content="どちらのクラブが勝つか予想して投票してみよう！"/>
-<meta property="og:image" content="{{ asset('image/twitter_card.jpg') }}"/>
+<meta property="og:image" content="{{ asset('images/twitter_card.png') }}"/>
