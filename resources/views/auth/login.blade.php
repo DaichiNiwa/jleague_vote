@@ -6,7 +6,7 @@
 <div class="card">
     <div class="card-header">ログイン</div>
     <div class="card-body">
-        <p>管理者ページはPCから閲覧されることを想定しています。スマホやタブレットの場合、レイアウトが崩れる場合があります。</p>
+        <p>管理者ページはPCから閲覧されることを想定しています。（ブラウザはChromeを推奨しています。）スマホやタブレットの場合、レイアウトが崩れる場合があります。</p>
         <form method="POST" action="{{ route('login') }}">
             @csrf
             <div class="form-group d-flex">
