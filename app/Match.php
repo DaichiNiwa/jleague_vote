@@ -30,6 +30,8 @@ class Match extends Model
 
     // 各数字を取得する際、データ型をINTにして取得
     protected $casts = [
+        'team1_votes' => 'integer',
+        'team2_votes' => 'integer',
         'tournament' => 'integer',
         'tournament_sub' => 'integer',
         'homeaway' => 'integer',
