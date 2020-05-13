@@ -18,7 +18,7 @@ class SearchService
             return [];
         }
 
-        // チーム1だけ入力されたとき(チーム②が入力されていないとき)
+        // チーム1だけ入力されたとき(チーム２が入力されていないとき)
         if($team2 === null) {
             return $this->get_matches_by_team($team1);
         }
