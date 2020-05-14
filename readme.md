@@ -106,7 +106,7 @@ PC（Google Chromeを推奨）
 # 設計
 今回の開発では、設計書にサイトの概要、主な機能、ページ遷移図、テーブル設計、ルーティング構成などをまとめてからコーディングに入りました。  
 設計書（GoogleDrive）  
-https://docs.google.com/spreadsheets/d/1WZcmF-BtyI4SbRZgE6iDo3tbTnLrUz8q9WEOAuRtd9Q/edit?usp=sharing
+https://docs.google.com/spreadsheets/d/1WZcmF-BtyI4SbRZgE6iDo3tbTnLrUz8q9WEOAuRtd9Q/edit?usp=sharing  
 ※実際のアプリケーションとは異なる部分もあります。  
 
 # 苦労したこと
