@@ -1,7 +1,7 @@
 <?php
 return [
     // 管理者のメールアドレス
-    'ADMIN_MAIL' => '@yahoo.co.jp',
+    'ADMIN_MAIL' => env('MAIL_FROM_ADDRESS'),
 
     'AUTH' => [
         // このサイトをポートフォリオとして公開している場合、true。

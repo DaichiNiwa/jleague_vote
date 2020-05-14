@@ -29,7 +29,7 @@
                             <label for="ranking" class="col-4 col-form-label text-md-right">昨年順位</label>
 
                             <div class="col-6">
-                                <select name="ranking" id="ranking" class="form-control @error('ranking') is-invalid @enderror">
+                                <select name="ranking" id="ranking" class="form-control @error('ranking') is-invalid @enderror" required>
                                 <option value="">選択してください。</option>
                                     @for($i = 1; $i <= 20; $i++)
                                         <option value="{{ $i }}">{{ $i }}位</option>

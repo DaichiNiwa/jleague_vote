@@ -1,72 +1,131 @@
-<p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
+# Jリーグ勝者予想 jleague_vote
+2020年4月制作  
+J1リーグでこれから行われる試合について、どちらのチームが勝つのかファンが予想して投票するサイトです。試合についての予想や感想をコメントで投稿して、ファン同士で交流することもできます。またサッカーについて選択式のアンケートも実施し、ファンから意見を募ります。  
+  
+デモサイト  
+https://www.jleague-vote.xyz/welcome  
+設計書（GoogleDrive）  
+  
+# 開発の目的
+* 私はサッカー観戦が趣味で、毎週末テレビで見たり、たまにスタジアムに足を運んだりしています。好きなサッカーについてファン同士で勝敗を予想したり、試合の感想をワイワイ言い合ったりできるサイトがあれば面白いと思い、制作してみることにしました。  
+また、投票サイトには不正投票を防ぐ仕組みが求められるので、技術的にも面白い挑戦になると思いやってみることにしました。
+* この開発を通して自分のPHP/Laravelのスキルを伸ばしたい、開発経験を増やしたいと思ったため。
+* 転職活動の際、このアプリケーションを通して自分のPHP/Laravelのスキルを知ってもらえるようにするため。
+# 開発環境
+* Laravel 6.18.3  
+* PHP 7.3
+* MySQL 5.7
+* phpmyadmin
+* Bootstrap 4.4.1
+* Docker Desktop for Mac 19.03.5
+* git version 2.23.0
+* macOS Catalina 10.15.4
+# 主な機能
+## ゲスト向け（一般ユーザー、ログイン不要）
+* 試合の勝敗予想投票  
+今後行われる試合でどちらのチームが勝つ予想して、1日1回投票できる。投票は試合開始時刻に締め切られる。
+* 試合へのコメント  
+試合開始前、開始後にかかわらず、いつでも自由に試合について予想や感想をコメントできる。コメントの際にはハンドルネーム（任意）と応援するチーム（チーム1、チーム2、どちらも応援の3択）を入力する。
+* アンケート投票  
+管理者が設定したアンケートに受付期間中、1人1回投票することができる。  
+（アンケートの例: 現在最強だと思うチームは？ 1横浜F・マリノス　2FC東京　3鹿島アントラーズ　4ヴィッセル神戸　5その他）
+* アンケートへのコメント  
+いつでも自由にアンケートについて意見をコメントできる。コメントの際にはハンドルネーム（任意）と投票した選択肢（5択）を入力する。
+* Twitterリンク  
+試合に投票したら、Twitterボタンからすぐに自身のTwitterでその旨をツイートできる。アンケートも同様に簡単に内容をツイートできる。
+* 試合の検索  
+チーム名を入力してそのチームの試合を検索することができる。
+* お問い合わせ  
+サイトについての問い合わせや不適切なコメントの報告を直接管理者に連絡することができる。
+## 管理者向け
+* 試合の設定  
+今後行われるJ1リーグ、天皇杯、ルヴァンカップの試合について対戦チームや開始時刻を設定し、投票を受付する。投票は試合開始時刻に自動で締め切られる。予約投稿を設定して、任意の日時に試合を公開、受付開始できる。
+* 試合の管理・編集  
+設定した試合について、内容を編集したり、削除したりできる。
+* アンケートの設定  
+Jリーグのチームや選手について、５択のアンケートを設定し、ゲストの意見を募る。投票は設定した終了時刻に自動で締め切られる。
+* アンケートの管理・編集  
+設定したアンケートについて、内容を編集したり、削除したりできる。
+* コメントの非表示  
+ゲストが試合やアンケートに投稿したコメントで、不適切な内容のものがあれば非表示に設定し、閲覧できないようにすることができる。
+* Twitter自動告知  
+試合とアンケートの投票受付が始まったタイミングと締め切られたタイミングで、自動でサイトの公式Twitterでその旨がツイートされる。
+* チームの登録・編集  
+J1のチームの名前と昨年順位を登録する。編集することもできる。
+* お知らせ  
+サイトメンテナンス予定などのお知らせを登録し、ゲスト用のトップページで告知できる。
+* ログイン履歴  
+どの管理者がいつログインしたか履歴を保存、表示する。
+## 主管理者（権限の強い管理者）向け
+* 管理者の新規登録  
+新たな管理者を登録することができる。
+* 試合の編集・削除  
+管理者のパスワードを変更できる。管理者を削除できる。
+# 特徴的な機能
+## 1.不正投票を防ぐ仕組み
+試合の投票は1日1回、アンケートの投票は期間中1回のみというルールのため、不正な多重投票を防ぐ仕組みを実装しました。  
+この仕組みは、Cookieを用いた第一フィルターと、IPアドレス、UserAgentを用いた第二フィルターから構成されています。以下に試合の不正投票を防ぐ仕組みを説明します。  
+  
+ユーザーが試合の投票をしたら、Cookieに「〇〇の試合に〇月〇日に投票した」という記録を残す。さらにDBに投票した日、IPアドレス、UserAgentを保存する。  
+ユーザーが多重投票しようとすると、第一フィルターとしてまずCookieに保存した内容により同一日に投票していないか判別する。Cookieが削除されたりブラウザのシークレットモードで閲覧された場合は、次の第二フィルターで判別。  
+第二フィルターでは投票しようとするユーザーと、DBに保存した投票した日、IPアドレス、UserAgentの3つが完全に一致した場合、多重投票とみなし投票させない。  
+  
+このやり方で完全にユーザーを識別できるわけではなく、悪意のあるユーザーなら簡単に偽装できてしまいますが、あくまで娯楽目的のサイトなので敷居を低くする意味でログイン認証などは使わず、この判別方法としました。 
+   
+このやり方の問題点として、企業や学校のネットワークからアクセスされた場合、同じIPアドレスで別人というケースが発生し、投票していないのに投票したことになってしまう場合があります。  
+また、同一ユーザーでもIPアドレスが切り替わってしまうことがある問題や、同一端末でもブラウザを変えれば複数投票が簡単にできる問題もありますが、許容します。あくまで敷居を低くすることを重視し、ログイン認証等の厳しいユーザー判別はしないこととしました。  
+さらに、IPアドレスやUserAgentを取得し保存、利用するので、適切な利用規約を掲載する必要があります。
+## 2.Twitterでの自動告知ツイート
+試合とアンケートは投票受付が始まったタイミングと締め切られたタイミングで、自動でサイトの公式Twitterでその旨がツイートされます。  
+この仕組みは、Laravelの[タイムスケジュール](https://readouble.com/laravel/6.x/ja/scheduling.html)（Cron）と[Twitter notification channel for Laravel](https://github.com/laravel-notification-channels/twitter/blob/master/README.md)というパッケージを組み合わせて実現しました。以下に試合の自動告知の仕組みを説明します。  
+  
+試合にツイッター投稿用ステータスを持たせ、0:投票開始前（公開前）、1:投票受付中（公開）、2:投票終了とする。  
+Cronによって毎日5時から25時の間、1時間ごとに、ステータス0（公開前）の投票について、現在時刻が投票開始時刻を過ぎているかチェックする。もし過ぎていれば投票が開始されたとして、「投票開始しました」とツイートする。同時にステータスを1（受付中）に変更する。  
+投票締切後の結果ツイートも同様の仕組みで、毎日9時から21時の間、1分ごとに、ステータス1（受付中)の投票で、現在時刻が締切時刻を過ぎているかチェックする。過ぎていれば投票が締め切られたとして「投票が終了しました」とツイートする。同時にステータスを2（投票終了）に変更する。  
+  
+アンケートもほぼ同様の仕組みで自動告知をします。（アンケートには予約投稿機能がないため、管理者がアンケートを設定したら即時、投票開始のツイートがされます）
+# 実装したかった機能
+今回、私のスキルレベルや時間的な制約により、実装したかったができなかった機能があります。
+* 試合情報の自動取り込み  
+今回は試合の日時や対戦チームを手動で1つ1つ入力するようになっています。しかし理想としてはこれは完全に自動化するべきです。Jリーグの試合日程などの情報をどこかから取得して、自動で試合の設定をできるようにできるといいのですが、今回は難易度が高いので実装はできませんでした。
+# 課題点
+今回、実装した機能のうち、もっと改善の余地のある箇所がいくつかあります。
+* IPアドレスとUserAgentを平文のままDBに保存していること  
+今回は投票の際に取得したIPアドレスとUserAgentを平文のままDBに保存しています。しかしセキュリティ面や検索スピードを上げることを考慮すると、数値化して保存したほう良いかもしれないと考えています。ただし、IPアドレスにIPv4とIPv6が混在していること、IPアドレスを数字にする関数でもip2longやinet_ptonなどがあること、DBでのデータ型をどうするかなど問題が多く、難しい面もあるので今回は平文のままで保存することにしました。  
+* 悪意のあるユーザーがツールなどを使用し、短時間に大量の投票をしたらどうなるのか  
+今回は1つの試合とアンケートへの投票は最大2万件までとし、DBにあまりに大量の投票が挿入されることがないようにしています。しかしこれでは悪意のある投票への対策としては不十分で、短時間の集中的なアクセスを制限する仕組みなどを導入する必要があると思います。LaravelのThrottleRequestsミドルウェアなどを使うことも検討しましたが、ログイン認証なしだとIPアドレスによってユーザー判別するため、IPアドレスを変えられるとうまくいかないかもしれないなどの懸念があり、難易度が高いと思い断念しました。
+* viewファイルで共通部分の部品化  
+今回、viewファイル内で同じような記述の繰り返しをしている箇所がいくつかあったので、コンポーネント化して可読性、メンテナンス性を上げられると良かったと思います。
+# CSSとレスポンシブについて
+CSSは大部分をBootstrapで、一部は自作のCSSファイルでカスタマイズしました。  
+ゲスト向けページはレスポンシブ対応しています。各ページは以下のデバイスで閲覧されることを想定しています。
+* ゲスト向けページ  
+スマホ、タブレット、PC
+* 管理者向けページ  
+PC（Google Chromeを推奨）
+# 設計
+今回の開発では、設計書にサイトの概要、主な機能、ページ遷移図、テーブル設計、ルーティング構成などをまとめてからコーディングに入りました。  
+設計書（GoogleDrive）  
+※実際のアプリケーションとは異なる部分もあります。  
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
-
-## About Laravel
-
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
-
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
-
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
-
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
-- [We Are The Robots Inc.](https://watr.mx/)
-- [Understand.io](https://www.understand.io/)
-- [Abdel Elrafa](https://abdelelrafa.com)
-- [Hyper Host](https://hyper.host)
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-source software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+# 苦労したこと
+* Laravel6の情報がネット上にまだ少ない  
+このサイトを作る前に「博多うまか市場」の制作で初めてLaravelを使いました。このときはこれまで広く使われているバージョン5.5で、参考にできる情報がネットにかなり多くありました。しかし今回はリリースされてからまだ半年ほどしか経っていなかった6.x（2019年9月リリース）を使用したため、まだ参考にできる個人ブログなどの情報が少なく、苦労しました。ただそのおかげでReadouble（日本語リファレンス）を悪戦苦闘しながらも読まざるを得ないことが多く、鍛えられたと思います。また、改めて公式の情報にあたることの重要性を感じました。さらに、欲しい情報を得るために外部ライブラリの制作者のGitHubや英語のサイトを見ないといけない場面も多く、いい経験になりました。
+　　
+# 今後
+今回の開発経験を踏まえて今後やっていきたいことは以下の通りです。
+* Laravelのサービスプロバイダなどの理解を深めたい。  
+今回、コントローラー内の記述量を減らす目的で、何度かサービスプロバイダ（サービスクラス）を利用しました。しかしサービスプロバイダ、DI（依存注入）、サービスコンテナなどLaravelの基礎的な部分が理解しきれてないことが多いので、もっとしっかり把握できるように学習していきたいです。
+* Laravelのいろんな機能を使いこなしたい。  
+今回、Gateによる認可やメール送信、ページネーションなど初めて使うLaravelの機能が多くありました。しかしLaravelには私がまだ知らない便利な機能が本当に多くあり、私はLaravelのポテンシャルを全然引き出せていないと感じています。今後より学習を深めて、フレームワークを使いこなせるようになりたいです。
+* PHPの理解を深めたい。  
+オブジェクト指向やクラスなど、PHPの理解をもっと深めて基礎を固めて、よりフレームワークを使いこなせるようになりたいです。
+* バージョン管理を細かく行う  
+今回は作業がひと段落したときにgitコミットしていましたが、頻度が少なすぎたかなと思います。次はもう少しこまめにコミットして、変更履歴を追いやすくすると良いと考えています。
+* より本格的なテストを行う
+# 最後に
+このJリーグ勝者予想はこれまで自分が作ったことのない大きな規模のサイトで、たくさんのファイルや複雑な構成に悪戦苦闘しながら制作しました。本当に何度も何度もエラーが発生し、その度に解決法を検索して、苦しみながらなんとか乗り越えました。心が折れそうになることもたくさんありましたが、完成までたどり着くことができました。この経験からエンジニアとして多くの成長や自信を得ることができたと思います。
+  
+このサイトは2020年4月の1ヶ月間をかけて制作しました。この期間は食事と睡眠、仕事以外のほとんどの時間をこの制作につぎ込みました。新型コロナの影響でサッカーが全てなくなったことで、作業に集中できるという皮肉なこともありました。1日も早く日常が戻って、全ての人が自由にやりたいことをやれる世界になることを願ってやみません。  
+  
+最後まで長文をお読みいただき、誠にありがとうございました。まだまだ未熟ではありますが、今後もエンジニアとしてのスキルアップに励んでいきたいと思います。
