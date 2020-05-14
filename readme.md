@@ -5,7 +5,7 @@ J1リーグでこれから行われる試合について、どちらのチーム
 デモサイト  
 https://www.jleague-vote.xyz/welcome  
 設計書（GoogleDrive）  
-  
+https://docs.google.com/spreadsheets/d/1WZcmF-BtyI4SbRZgE6iDo3tbTnLrUz8q9WEOAuRtd9Q/edit?usp=sharing
 # 開発の目的
 * 私はサッカー観戦が趣味で、毎週末テレビで見たり、たまにスタジアムに足を運んだりしています。好きなサッカーについてファン同士で勝敗を予想したり、試合の感想をワイワイ言い合ったりできるサイトがあれば面白いと思い、制作してみることにしました。  
 また、投票サイトには不正投票を防ぐ仕組みが求められるので、技術的にも面白い挑戦になると思いやってみることにしました。
@@ -106,6 +106,7 @@ PC（Google Chromeを推奨）
 # 設計
 今回の開発では、設計書にサイトの概要、主な機能、ページ遷移図、テーブル設計、ルーティング構成などをまとめてからコーディングに入りました。  
 設計書（GoogleDrive）  
+https://docs.google.com/spreadsheets/d/1WZcmF-BtyI4SbRZgE6iDo3tbTnLrUz8q9WEOAuRtd9Q/edit?usp=sharing
 ※実際のアプリケーションとは異なる部分もあります。  
 
 # 苦労したこと
