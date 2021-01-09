@@ -1,9 +1,7 @@
 # Jリーグ勝者予想 jleague_vote
 2020年4月制作  
 J1リーグでこれから行われる試合について、どちらのチームが勝つのかファンが予想して投票するサイトです。試合についての予想や感想をコメントで投稿して、ファン同士で交流することもできます。またサッカーについて選択式のアンケートも実施し、ファンから意見を募ります。  
-  
-デモサイト  
-https://www.jleague-vote.xyz/welcome  
+
 設計書（GoogleDrive）  
 https://docs.google.com/spreadsheets/d/1WZcmF-BtyI4SbRZgE6iDo3tbTnLrUz8q9WEOAuRtd9Q/edit?usp=sharing
 # 開発の目的
